@@ -383,3 +383,108 @@ print(book.description)
 
 let fish = Fish(name: "秋刀魚")
 print(fish.description)
+
+//ジェネリクス
+func isEqual<T : Equatable>(_ x: T, _ y: T) -> Bool {
+    return x == y
+}
+
+isEqual("abc", "def")
+isEqual(1.0, 3.14)
+isEqual(false, false)
+
+//特殊化　←ジェネリックを使用したものの型を確定させること
+
+//ジェネリック型の型成約付きエクステンション
+struct Pair<Element> {
+    let first: Element
+    let second: Element
+}
+
+extension Pair where Element == String {
+    func hasElement(containing character: Character) -> Bool {
+        return first.contains(character)
+    }
+}
+
+let stringPair = Pair(first: "abc", second: "def")
+stringPair.hasElement(containing: "e")
+
+let integerPair = Pair(first: 1, second: 2)
+//integerPair.hasElement(containing: "e") メソッドが存在しないためコンパイルエラー
+
+import Foundation
+
+//構造型、クラス型の挙動の違い
+protocol Target {
+    var identifier: String { get set }
+    var count: Int { get set }
+    mutating func action()
+}
+
+extension Target {
+    mutating func action() {
+        count += 1
+        print("id: \(identifier), count:\(count)")
+    }
+}
+
+struct ValueTypeTarget : Target {
+    var identifier = "Value Type"
+    var count = 0
+    
+    init() {}
+}
+
+class ReferenceTypeTarget : Target {
+    var identifier = "Reference Type"
+    var count = 0
+}
+
+struct Timer {
+    var target: Target
+    
+    mutating func start() {
+        for _ in 0..<5 {
+            target.action()
+        }
+    }
+}
+
+let valueTypeTarget: Target = ValueTypeTarget()
+var timer1 = Timer(target: valueTypeTarget)
+timer1.start()
+valueTypeTarget.count
+
+let referenceTypeTarget = ReferenceTypeTarget()
+var timer2 = Timer(target: referenceTypeTarget)
+timer2.start()
+referenceTypeTarget.count
+
+//Optional<Wrapped>型を利用するべきとき
+struct User {
+    let id: Int
+    let name: String
+    let milAddress: String?
+    
+    init?(json: [String : Any]) {
+        guard let id = json["id"] as? Int,
+              let name = json["name"] as? String else {
+            return nil
+        }
+        self.id = id
+        self.name = name
+        self.milAddress = json["email"] as? String
+    }
+}
+
+let json: [String : Any] = [
+    "id": 123,
+    "name": "Yusei Nishiyama"
+]
+
+if let user = User(json: json) {
+    print("id: \(user.id), name: \(user.name)")
+} else {
+    print("Invalid JSON")
+}
