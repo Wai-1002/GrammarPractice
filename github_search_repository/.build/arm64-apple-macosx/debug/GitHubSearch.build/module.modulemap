@@ -1,0 +1,4 @@
+module GitHubSearch {
+    header "/Users/wakoyuki/Swift/GrammerPractice/github_search_repository/.build/arm64-apple-macosx/debug/GitHubSearch.build/GitHubSearch-Swift.h"
+    requires objc
+}

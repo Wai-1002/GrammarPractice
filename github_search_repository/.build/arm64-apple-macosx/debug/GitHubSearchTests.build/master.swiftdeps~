@@ -1,0 +1,8 @@
+version: "Apple Swift version 5.8.1 (swiftlang-5.8.0.124.5 clang-1403.0.22.11.100)"
+options: "bb8d32aa051f2154a389ef3309fd0350feaa1cdd1808d7ebf0f47d4234abe4ea"
+build_start_time: [1694164222, 90128000]
+build_end_time: [1694164230, 137732000]
+inputs:
+  "/Users/wakoyuki/Swift/GrammerPractice/github_search_repository/Tests/GitHubSearchTests/ExampleJSON.swift": !private [1694163567, 605015810]
+  "/Users/wakoyuki/Swift/GrammerPractice/github_search_repository/Tests/GitHubSearchTests/RepositoryTests.swift": !private [1694163018, 511001816]
+  "/Users/wakoyuki/Swift/GrammerPractice/github_search_repository/Tests/GitHubSearchTests/UserTests.swift": !private [1694162849, 830316741]

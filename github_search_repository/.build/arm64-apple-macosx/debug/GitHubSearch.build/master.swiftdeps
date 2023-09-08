@@ -1,0 +1,7 @@
+version: "Apple Swift version 5.8.1 (swiftlang-5.8.0.124.5 clang-1403.0.22.11.100)"
+options: "958383aaa07fa09a47582ab850ef4f09895df2a98204644b7de4bb7b5833bc73"
+build_start_time: [1694164221, 623071000]
+build_end_time: [1694164222, 6895000]
+inputs:
+  "/Users/wakoyuki/Swift/GrammerPractice/github_search_repository/Sources/GitHubSearch/Repository.swift": [1694156848, 102023399]
+  "/Users/wakoyuki/Swift/GrammerPractice/github_search_repository/Sources/GitHubSearch/User.swift": [1694163678, 883777028]

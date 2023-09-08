@@ -1,0 +1,17 @@
+{
+  "": {
+    "swift-dependencies": "/Users/wakoyuki/Swift/GrammerPractice/github_search_repository/.build/arm64-apple-macosx/debug/GitHubSearch.build/master.swiftdeps"
+  },
+  "/Users/wakoyuki/Swift/GrammerPractice/github_search_repository/Sources/GitHubSearch/Repository.swift": {
+    "dependencies": "/Users/wakoyuki/Swift/GrammerPractice/github_search_repository/.build/arm64-apple-macosx/debug/GitHubSearch.build/Repository.d",
+    "object": "/Users/wakoyuki/Swift/GrammerPractice/github_search_repository/.build/arm64-apple-macosx/debug/GitHubSearch.build/Repository.swift.o",
+    "swiftmodule": "/Users/wakoyuki/Swift/GrammerPractice/github_search_repository/.build/arm64-apple-macosx/debug/GitHubSearch.build/Repository~partial.swiftmodule",
+    "swift-dependencies": "/Users/wakoyuki/Swift/GrammerPractice/github_search_repository/.build/arm64-apple-macosx/debug/GitHubSearch.build/Repository.swiftdeps"
+  },
+  "/Users/wakoyuki/Swift/GrammerPractice/github_search_repository/Sources/GitHubSearch/User.swift": {
+    "dependencies": "/Users/wakoyuki/Swift/GrammerPractice/github_search_repository/.build/arm64-apple-macosx/debug/GitHubSearch.build/User.d",
+    "object": "/Users/wakoyuki/Swift/GrammerPractice/github_search_repository/.build/arm64-apple-macosx/debug/GitHubSearch.build/User.swift.o",
+    "swiftmodule": "/Users/wakoyuki/Swift/GrammerPractice/github_search_repository/.build/arm64-apple-macosx/debug/GitHubSearch.build/User~partial.swiftmodule",
+    "swift-dependencies": "/Users/wakoyuki/Swift/GrammerPractice/github_search_repository/.build/arm64-apple-macosx/debug/GitHubSearch.build/User.swiftdeps"
+  }
+}
