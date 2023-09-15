@@ -1,4 +1,4 @@
-public struct SearchResponse<Item : Decodable> {
+public struct SearchResponse<Item : Decodable> : Decodable{
     public var totalCount: Int
     public var items: [Item]
     

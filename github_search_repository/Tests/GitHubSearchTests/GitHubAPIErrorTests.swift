@@ -10,7 +10,7 @@ class GitHubAPIErrorTests : XCTestCase {
         XCTAssertEqual(error.message, "Validation Failed")
         
         let firstError = error.errors.first
-        XCTAssertEqual(firstError?.failed, "q")
+        XCTAssertEqual(firstError?.field, "q")
         XCTAssertEqual(firstError?.code, "missing")
         XCTAssertEqual(firstError?.resource, "Search")
     }
