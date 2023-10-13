@@ -119,14 +119,14 @@ closure = { string in
 closure("abc")
 
 //キャプチャ　クロージャが自身が定義されたスコープの変数や定数への参照を保持している
-let greeting: (String) -> String
-do {
-    let symbol = "!"
-    greeting = { user in
-        return "Hello, \(user)\(symbol)"
-    }
-}
-greeting("Ishikawa")
+//let greeting: (String) -> String
+//do {
+//    let symbol = "!"
+//    greeting = { user in
+//        return "Hello, \(user)\(symbol)"
+//    }
+//}
+//greeting("Ishikawa")
 
 //escaping属性
 var queue = [() -> Void]()
@@ -155,3 +155,391 @@ var board: [[Int]] = {
 board
 
 //スタティックプロパティ --型自身に紐づくプロパティ
+//struct Greeting {
+//    static let signature = "Sent from iPhone"
+//
+//    var to = "Yosuke Ishikawa"
+//    var body = "Hello"
+//}
+//
+//func print(greeting: Greeting) {
+//    print("to \(greeting.to)")
+//    print("body: \(greeting.body)")
+//    print("signature: \(Greeting.signature)")
+//}
+//
+//let greeting1 = Greeting()
+//var greeting2 = Greeting()
+//greeting2.to = "Yusei Nishiyama"
+//greeting2.body = "Hi!"
+//print(greeting: greeting1)
+//print("--")
+//print(greeting: greeting2)
+
+//プロパティオブザーバ
+struct Greeting3 {
+    var to = "Yousuke Ishikawa" {
+        willSet {
+            print("willSet: (to: \(self.to), newValue: \(newValue)")
+        }
+        
+        didSet {
+            print("didset: (to: \(self.to))")
+        }
+    }
+}
+
+//var greeting = Greeting3()
+//greeting.to = "Yusei Nishiyama"
+
+//レイジーストアドプロパティ
+//アクセスされるまで初期化を遅延させることができる
+
+//イニシャライザ
+struct Greeting {
+    let to: String
+    var body: String {
+        return "Hello, \(to)!"
+    }
+    
+    init(to: String) {
+        self.to = to//左のtoは let to:String のtoで右のtoはinit(to:String)のto　宣言時に値を入れなければならない
+    }
+}
+
+let greeting = Greeting(to: "Yosuke Ishikawa")
+let body = greeting.body
+
+//サブスクリプト　コレクション要素へのアクセス
+struct Progression {
+    var numbers: [Int]
+    
+    subscript(index: Int) -> Int {
+        get {
+            return numbers[index]
+        }
+        
+        set {
+            numbers[index] = newValue
+        }
+    }
+}
+
+var progression = Progression(numbers: [1, 2, 3])
+let element1 = progression[1]
+
+progression[1] = 4
+let element2 = progression[1]
+
+//エクステンション
+extension String {
+    var enclosedString: String {
+        return "[\(self)]"
+    }
+}
+
+let title = "重要".enclosedString + "今日は休み"
+
+//型のネスト
+
+struct NewsFeedItem {
+    enum Kind {
+        case a
+        case b
+        case c
+    }
+    
+    let id: Int
+    let title: String
+    let kind: Kind
+    
+    init(id: Int, title: String, kind: Kind) {
+        self.id = id
+        self.title = title
+        self.kind = kind
+    }
+}
+
+let kind = NewsFeedItem.Kind.a
+let item = NewsFeedItem(id: 1, title: "Table", kind: kind)
+switch item.kind {
+case .a: print("kind is .a")
+case .b: print("kind is .b")
+case .c: print("kind is .c")
+}
+
+//値型
+struct Color2 {
+    var red: Int
+    var green: Int
+    var blue: Int
+}
+
+var a = Color2(red: 255, green: 0, blue: 0)
+var b = a
+a.red = 0
+
+a.red
+a.green
+a.blue
+
+b.red
+b.green
+b.blue
+
+//参照型
+class IntBox {
+    var value: Int
+    
+    init(value: Int) {
+        self.value = value
+    }
+}
+
+var c = IntBox(value: 1)
+var d = c
+
+c.value = 2
+
+c.value
+d.value
+
+//メンバーワイズイニシャライザ
+struct Article {
+    var id: Int
+    var title: String
+    var body: String
+    
+    //以下と同様のイニシャライザが自動的に定義される
+//    init(id: Int, title: String, body: String) {
+//        self.id = id
+//        self.title = title
+//        self.body = body
+//    }
+}
+
+let article = Article(id: 1, title: "Hello", body: "...")
+article.id
+article.title
+article.body
+
+//プロトコル連想型
+protocol RandomValueGenerator {
+    associatedtype Value
+    
+    func randomValue() -> Value
+}
+
+struct IntegerRandomValueGenerator : RandomValueGenerator {
+    func randomValue() -> Int {
+        return Int.random(in: Int.min...Int.max)
+    }
+}
+
+struct StringandomValueGenerater : RandomValueGenerator {
+    func randomValue() -> String {
+        let letters = "abcdefghijklmnopqrstuvwxyz"
+        let offset = Int.random(in: 0..<letters.count)
+        let index = letters.index(letters.startIndex, offsetBy: offset)
+        return String(letters[index])
+    }
+}
+
+//プロトコルエクステンションとデフォルト実装
+protocol Item {
+    var name: String { get }
+    var caution: String? { get }
+}
+
+extension Item {
+    var caution: String? {
+        return nil
+    }
+    
+    var description: String {
+        var description = "商品名: \(name)"
+        if let caution = caution {
+            description += "、　注意事項: \(caution)"
+        }
+        return description
+    }
+}
+
+struct Book : Item {
+    let name: String
+}
+
+struct Fish : Item {
+    let name: String
+    
+    var caution: String? {
+        return "クール便での発送となります"
+    }
+}
+
+
+let book = Book(name: "Swift実践入門")
+print(book.description)
+
+let fish = Fish(name: "秋刀魚")
+print(fish.description)
+
+//ジェネリクス
+func isEqual<T : Equatable>(_ x: T, _ y: T) -> Bool {
+    return x == y
+}
+
+isEqual("abc", "def")
+isEqual(1.0, 3.14)
+isEqual(false, false)
+
+//特殊化　←ジェネリックを使用したものの型を確定させること
+
+//ジェネリック型の型成約付きエクステンション
+struct Pair<Element> {
+    let first: Element
+    let second: Element
+}
+
+extension Pair where Element == String {
+    func hasElement(containing character: Character) -> Bool {
+        return first.contains(character)
+    }
+}
+
+let stringPair = Pair(first: "abc", second: "def")
+stringPair.hasElement(containing: "e")
+
+let integerPair = Pair(first: 1, second: 2)
+//integerPair.hasElement(containing: "e") メソッドが存在しないためコンパイルエラー
+
+import Foundation
+
+//構造型、クラス型の挙動の違い
+protocol Target {
+    var identifier: String { get set }
+    var count: Int { get set }
+    mutating func action()
+}
+
+extension Target {
+    mutating func action() {
+        count += 1
+        print("id: \(identifier), count:\(count)")
+    }
+}
+
+struct ValueTypeTarget : Target {
+    var identifier = "Value Type"
+    var count = 0
+    
+    init() {}
+}
+
+class ReferenceTypeTarget : Target {
+    var identifier = "Reference Type"
+    var count = 0
+}
+
+struct Timer {
+    var target: Target
+    
+    mutating func start() {
+        for _ in 0..<5 {
+            target.action()
+        }
+    }
+}
+
+let valueTypeTarget: Target = ValueTypeTarget()
+var timer1 = Timer(target: valueTypeTarget)
+timer1.start()
+valueTypeTarget.count
+
+let referenceTypeTarget = ReferenceTypeTarget()
+var timer2 = Timer(target: referenceTypeTarget)
+timer2.start()
+referenceTypeTarget.count
+
+//Optional<Wrapped>型を利用するべきとき
+struct User {
+    let id: Int
+    let name: String
+    let milAddress: String?
+    
+    init?(json: [String : Any]) {
+        guard let id = json["id"] as? Int,
+              let name = json["name"] as? String else {
+            return nil
+        }
+        self.id = id
+        self.name = name
+        self.milAddress = json["email"] as? String
+    }
+}
+
+let json: [String : Any] = [
+    "id": 123,
+    "name": "Yusei Nishiyama"
+]
+
+if let user = User(json: json) {
+    print("id: \(user.id), name: \(user.name)")
+} else {
+    print("Invalid JSON")
+}
+
+//オブザーバパターン
+class Poster {
+    static let notificationName = Notification.Name("SomeNotification")
+    
+    func post() {
+        NotificationCenter.default.post(
+            name: Poster.notificationName, object: nil)
+    }
+}
+
+import Dispatch
+import PlaygroundSupport
+
+PlaygroundPage.current.needsIndefiniteExecution = true
+
+let queue = DispatchQueue.global(pos: .userInitiated)
+queue.async {
+    Thread.isMainThread
+    print("非同期の処理")
+}
+
+//エラー処理
+struct User2 {
+    let id: Int
+    let name: String
+    let email: String
+    
+}
+
+func findUser(byID id: Int) -> User2? {
+    let users = [
+        User2(id: 1,
+              name: "Yusei Nishiyama",
+             email: "nishiyama@example.com"),
+        User2(id: 2,
+              name: "Yosuke Ishikawa",
+              email: "ishikawa@example.com")
+        ]
+    
+    for user in users {
+        if user.id == id {
+            return user
+        }
+    }
+    
+    return nil
+}
+
+let id = 1
+if let user = findUser(byID: id) {
+    print("Name: \(user.name)")
+} else {
+    print("Error: User not found")
+}
